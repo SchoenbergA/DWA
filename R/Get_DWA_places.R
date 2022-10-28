@@ -3,6 +3,8 @@
 # load data
 # set environment paths
 wd <- getwd() # local path to repository
+wd <- "C:/Envimaster/DWA"
+
 
 dat <- file.path(wd,"GeoRef/Data_GeoRef")
 
@@ -21,6 +23,7 @@ head(jh)
 # unequal colnm order detected
 colnames(jh)
 colnames(al)
+colnames(jh)[16] <- "Nachbearbeitet"
 
 # reorder al
 al <- al[,c(1:8,12:14,9:11,15:17)]
@@ -42,6 +45,8 @@ test <- al[which(!is.na(al$LONG)),]
 test2 <- jh[which(!is.na(jh$LONG)),]
 test3 <- rbind(test,test2)
 
+head(test)
+head(test2)
 head(test3)
 str(test3)
 
@@ -61,6 +66,7 @@ test4 <-LinguGeo::mergeMultiPlaces(df = test3,pos_x = 13,pos_y = 14,col = ncol(t
 length(which(test4$n_places>1)) # 236
 sum(test4$n_places)-nrow(test4) # 449
 
+480/449
 nrow(test4) # 2011 places
 
 #
@@ -80,8 +86,20 @@ nrow(mau_plc) # 2347 places
 
 # hit
 2011/2347 # 0.8568
+# new
+2090/2347 # 0.8990
+
+2090/2011
+(2011/2347 - 2090/2347)*100
+(2090/2347 -2011/2347 )*100
 # miss
 2347-2011 # 336
+# new
+2347-2090 # 257
+
+257/336
+
+257*1.307
 
 ### get spatial dfs
 require(rgdal)
