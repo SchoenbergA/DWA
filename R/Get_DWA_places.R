@@ -87,7 +87,7 @@ write.xlsx(georef_full,file.path(dat,"DWA_GeoRef_full.xlsx"))
       
             
             # load maurer table
-            mau <- openxlsx::read.xlsx(xlsxFile =file.path(wd,"GeoRef/Data_Places/name.xlsx"))
+            mau <- openxlsx::read.xlsx(xlsxFile =file.path(wd,"GeoRef/Data_Places/DATEN GESAMT_new2.xlsx"))
       
             colnames(mau[,1:20]) # 6,7
             mau_plc <- LinguGeo::mergeMultiPlaces(df = mau,pos_x = 6,7,col = 5)
@@ -103,7 +103,7 @@ write.xlsx(georef_full,file.path(dat,"DWA_GeoRef_full.xlsx"))
             # hit old version dwa
             2011/2347 # 0.8568
             # hit new
-            2090/2347 # 0.8990
+            2088/2347 # 0.88
             
             2090/2011
             (2011/2347 - 2090/2347)*100
