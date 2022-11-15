@@ -46,20 +46,24 @@ all.equal(fs[,c(4:10,15)],org[,c(4:10,15)])
 all.equal(jh[,c(4:10,15)],org[,c(4:10,15)])
 
       # Bogennummer_alpha
-      org[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)]
-      org[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)]
+      org[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
+      org[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
       
-      fs[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)]
-      jh[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)]
+      fs[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
+      jh[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
       
       # Ort
-      org[which(al$Ort!=org$Ort),15]
-      al[which(al$Ort!=org$Ort),15]
+      org[which(al$Ort!=org$Ort),c(1,15)]
+      al[which(al$Ort!=org$Ort),c(1,15)]
       org[which(fs$Ort!=jh$Ort),15]
       fs[which(fs$Ort!=jh$Ort),15]
 
+      test <- cbind(org[which(fs$Ort!=org$Ort),c(1,15)],
+                    fs[which(fs$Ort!=org$Ort),(15)])
 
-### merge
+test
+      
+      ### merge
 # get all raws with places found
 sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
 sub_jh <- jh[which(!is.na(jh$`Bearbeiten/in`)),]
@@ -88,3 +92,5 @@ z <-DWA_Sanctum(org)
 x <-DWA_Sanctum(data_full,skip_mode = T) 
 x <-DWA_Sanctum(d1ata_full,skip_mode = T)
 
+" test"
+"test "
