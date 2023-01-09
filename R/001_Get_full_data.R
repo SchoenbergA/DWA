@@ -75,6 +75,9 @@ data_full <- do.call("rbind", list(sub_al,sub_jh,sub_fs))
 # get progress rate
 nrow(data_full)/nrow(al)
 
+# write out
+write.xlsx(data_full,file.path(wd,"DWA_places_14_12_22.xlsx"))
+
 # check data
 x <-DWA_Sanctum(al,skip_mode = F)
 
@@ -92,5 +95,11 @@ z <-DWA_Sanctum(org)
 x <-DWA_Sanctum(data_full,skip_mode = T) 
 x <-DWA_Sanctum(d1ata_full,skip_mode = T)
 
-" test"
-"test "
+# some idead
+
+# identifiy rows with "unsichehrieten"
+
+head(data_full)[15:19]
+
+grepl("[",data_full$Name.d..Lehrers,fixed = T)
+which(grepl("[",data_full$Name.d..Lehrers,fixed = T))
