@@ -20,6 +20,7 @@ require(stringi)
 al <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_AL.xlsx"))
 jh <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_JH.xlsx"))
 fs <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_fs.xlsx"))
+jr <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_jr.xlsx"))
 
 org <-openxlsx::read.xlsx(xlsxFile =file.path(wd,"GeoRef/Data_GeoRef/DWA_GeoRef_full.xlsx"))
 
