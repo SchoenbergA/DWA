@@ -1,6 +1,6 @@
 ### Functions to check data
 
-hndl_UCnew2 <- function(data,cmin=1,cmax=ncol(data),skip_message=F){
+hndl_UCnew2 <- function(data,cmin=1,cmax=ncol(data)){
   
   # set container
   count_ncol <-0
@@ -9,14 +9,7 @@ hndl_UCnew2 <- function(data,cmin=1,cmax=ncol(data),skip_message=F){
   count_nonu <-0
   #loop
   
-  if(skip_message==FALSE){
     for(i in cmin:cmax){
-      # print for each row the name, Non NFC strings and by this caused more uniques
-      cat(paste0("Column_",i," - ",length(which(stri_trans_isnfc(data[,i])==F))," Non NFC strings detected, leading to ",
-                 length(unique(data[,i]))-length(unique(stri_trans_nfc(data[,i]))),
-                 " more uniques"),sep = "\n")
-      
-      
       # sum up
       if(length(which(stri_trans_isnfc(data[,i])==F))>0){
         count_ncol <- count_ncol+1}
@@ -34,34 +27,6 @@ hndl_UCnew2 <- function(data,cmin=1,cmax=ncol(data),skip_message=F){
     res_uc <-paste0(count_ncol," columns contain a total of ",count_non, " non UFC strings. Transformation to NFC leads to a total of ",
                     count_nonu, " lesser uniques in ",count_ncolu, " columns.")
     
-  }
-  # skipping mode
-  if(skip_message==TRUE){
-    for(i in cmin:cmax){
-      # print for each row the name, Non NFC strings and by this caused more uniques
-      #cat(paste0("Column_",i," - ",length(which(stri_trans_isnfc(data[,i])==F))," Non NFC strings detected, leading to ",
-      #           length(unique(data[,i]))-length(unique(stri_trans_nfc(data[,i]))),
-      #           " more uniques"),sep = "\n")
-      
-      
-      # sum up
-      if(length(which(stri_trans_isnfc(data[,i])==F))>0){
-        count_ncol <- count_ncol+1}
-      count_non <- count_non+length(which(stri_trans_isnfc(data[,i])==F))
-      if(length(unique(data[,i]))-length(unique(stri_trans_nfc(data[,i])))>0){
-        count_ncolu <- count_ncolu+1}
-      count_nonu <- count_nonu+length(unique(data[,i]))-length(unique(stri_trans_nfc(data[,i])))
-      
-      # transform all columns
-      data[,i] <-stri_trans_nfc(data[,i])
-      
-    }# end loop
-    #cat(paste0(count_ncol," columns contain a total of ",count_non, " non UFC strings, leading to a total of ",
-    #           count_nonu, " lesser uniques in ",count_ncolu, " columns."))
-    res_uc <-paste0(count_ncol," columns contain a total of ",count_non, " non UFC strings. Transformation to NFC leads to a total of ",
-                    count_nonu, " lesser uniques in ",count_ncolu, " columns.")
-    
-  }
   
   # return
   return(list(data=data,res_uc=res_uc))
@@ -69,15 +34,10 @@ hndl_UCnew2 <- function(data,cmin=1,cmax=ncol(data),skip_message=F){
 
 anyWS <- function(df,skip_message=F){
   
-  if(skip_message==FALSE){
     # check for tailling
     tail <- lapply(1:ncol(df), function(x){
       length(which((grepl(" $", df[,x])==T)))
     })
-    # print column
-    for(i in 1:ncol(df)){
-      cat(paste0("Column_",i, " - ", tail[i]," tailing whitespaces detected"),sep="\n")
-    }
     
     # sum up
     cat(paste0(length(which(tail>0))," columns contain a total of ",sum(unlist(tail)), " tailling whitespaces"),sep = "\n")
@@ -87,10 +47,6 @@ anyWS <- function(df,skip_message=F){
     lead <- lapply(1:ncol(df), function(x){
       length(which((grepl("^ ", df[,x])==T)))
     })
-    # print column
-    for(i in 1:ncol(df)){
-      cat(paste0("Column_",i, " - ", lead[i]," leading whitespaces detected"),sep="\n")
-    }
     
     # sum up
     cat(paste0(length(which(lead>0))," columns contain a total of ",sum(unlist(lead)), " leading whitespaces"),sep = "\n")
@@ -100,41 +56,8 @@ anyWS <- function(df,skip_message=F){
     for (i in 1:ncol(df)) {
       df[,i] <-str_trim(df[,i], "both") 
     }
-  }
   
-  # skipping mode
-  if(skip_message==TRUE){
-    # check for tailling
-    tail <- lapply(1:ncol(df), function(x){
-      length(which((grepl(" $", df[,x])==T)))
-    })
-    # print column
-    for(i in 1:ncol(df)){
-      #cat(paste0("Column_",i, " - ", tail[i]," tailing whitespaces detected"),sep="\n")
-    }
-    
-    # sum up
-    #cat(paste0(length(which(tail>0))," columns contain a total of ",sum(unlist(tail)), " tailling whitespaces"),sep = "\n")
-    res_tail <-paste0(length(which(tail>0))," columns contain a total of ",sum(unlist(tail)), " tailling whitespaces")
-    
-    # check for leading
-    lead <- lapply(1:ncol(df), function(x){
-      length(which((grepl("^ ", df[,x])==T)))
-    })
-    # print column
-    for(i in 1:ncol(df)){
-      #cat(paste0("Column_",i, " - ", lead[i]," leading whitespaces detected"),sep="\n")
-    }
-    
-    # sum up
-    #cat(paste0(length(which(lead>0))," columns contain a total of ",sum(unlist(lead)), " leading whitespaces"),sep = "\n")
-    res_lead <-paste0(length(which(lead>0))," columns contain a total of ",sum(unlist(lead)), " leading whitespaces")
-    
-    # trim both leading amnd tailing whitespaces
-    for (i in 1:ncol(df)) {
-      df[,i] <-str_trim(df[,i], "both") 
-    }
-  }
+  
   
   # return
   return(list(df=df,res_lead=res_lead,res_tail=res_tail))
@@ -217,7 +140,6 @@ testCol <- function(df,n,skip_message=F){
 DWA_Sanctum <- function(df,skip_mode=F){
   if(skip_mode==F){
     # clean unicode -> convert all to UFC
-    cat(" ",sep="\n")
     cat("Checking for Non-UFC Unicode ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
@@ -226,7 +148,6 @@ DWA_Sanctum <- function(df,skip_mode=F){
     df_uc$res_uc
     
     # clean whitespaces
-    cat(" ",sep="\n")
     cat("Checking for Whitespaces ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
@@ -236,11 +157,10 @@ DWA_Sanctum <- function(df,skip_mode=F){
     df_ws$res_tail
     
     # check columns
-    cat(" ",sep="\n")
     cat("Checking columns ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
-    df_col <-testCol(df,0)
+    df_col <-testCol(df,0.1)
     df_col$res_col
     
     # summary
@@ -259,7 +179,6 @@ DWA_Sanctum <- function(df,skip_mode=F){
   # skipping mode
   if(skip_mode==T){
     # clean unicode -> convert all to UFC
-    cat(" ",sep="\n")
     cat("Checking for Non-UFC Unicode ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
@@ -268,7 +187,6 @@ DWA_Sanctum <- function(df,skip_mode=F){
     df_uc$res_uc
     
     # clean whitespaces
-    cat(" ",sep="\n")
     cat("Checking for Whitespaces ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
@@ -278,11 +196,10 @@ DWA_Sanctum <- function(df,skip_mode=F){
     df_ws$res_tail
     
     # check columns
-    cat(" ",sep="\n")
     cat("Checking columns ",sep="\n")
     Sys.sleep(1)
     cat(" ",sep="\n")
-    df_col <-testCol(df,0,skip_message = T)
+    df_col <-testCol(df,0.10,skip_message = T)
     df_col$res_col
     
     # summary
