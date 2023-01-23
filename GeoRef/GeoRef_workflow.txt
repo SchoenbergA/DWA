@@ -1,0 +1,13 @@
+### GeoRef Workflow
+
+# Georef all DWA places translitration of place names
+-> compare with Maurer (lvl1?)
+-> if DWA place name is in Maurer, than put coordinates and GID from Maurer to DWA
+
+# create DWA_places
+-> merge AL and JH Georef data
+used as base for translitaraion
+
+# Comparison
+-> Maurer places used actual level with mergMultiPlaces to compare to DWA
+-> Issue: maurer lvlv chnaged so tha DWA doenst fit Maurer anymore in total

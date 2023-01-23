@@ -4,6 +4,7 @@
 # load packages
 require(stringi)
 require(stringr)
+require(openxlsx) # excel handling
 
 ### DWA stats ####
 DWA_stats <- function(){
@@ -141,4 +142,45 @@ WS_stats <- function(){
   print(df)
 } # end of function
 
-WS_stats()
+
+### Check unsure stats ####
+DWA_unsure <- function(){
+  
+  # get all raws with places found
+  sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
+  sub_jh <- jh[which(!is.na(jh$`Bearbeiten/in`)),]
+  sub_fs <- fs[which(!is.na(fs$`Bearbeiten/in`)),]
+  sub_jr <- jr[which(!is.na(jr$`Bearbeiten/in`)),]
+  
+  # list hiwi data
+  ls <- list(sub_al,sub_jh,sub_fs,jr)
+  hiwi <- c("AL","JH","FS","JR")
+  
+  # count unsure enrties
+  all_unsure <- lapply(1:4, function(i)  
+    # n entries with []
+    unsure <- lapply(1:ncol(ls[[i]]), function(x){
+      length(which((grepl("\\[", ls[[i]][,x])==T)))
+    })
+    
+    
+  )
+  unsure <-c(sum(unlist(all_unsure[[1]])),
+             sum(unlist(all_unsure[[2]])),
+             sum(unlist(all_unsure[[3]])),
+             sum(unlist(all_unsure[[4]])))
+  
+  # get total entries
+  n_entries <-c(length(which(!is.na(sub_al[,c(19:56)]))),
+                length(which(!is.na(sub_jh[,c(19:56)]))),
+                length(which(!is.na(sub_fs[,c(19:56)]))),
+                length(which(!is.na(sub_jr[,c(19:56)]))) )
+  
+  # get df
+  df <- as.data.frame(cbind(unsure,n_entries))
+  
+  # calc unsure rate
+  df$unsure_rate <- round(df$unsure/df$n_entries,digits = 4)*100
+  rownames(df) <- hiwi
+  df
+}

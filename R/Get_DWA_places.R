@@ -1,11 +1,11 @@
 ### Merge GeoRef AL and JH to get All DWA/Maurer matching places
 # write SpatialPoints for DWA and Maurer
-# write new transliteration table
+# write new transliteration base table with all places needed
 
 # load data
 # set environment paths
 wd <- "C:/Envimaster/DWA" # local path to repository
-dat <- file.path(wd,"GeoRef/Data_GeoRef")
+dat <- file.path(wd,"GeoRef")
 
 
 # load package
@@ -77,6 +77,7 @@ write.xlsx(georef_full,file.path(dat,"DWA_GeoRef_full.xlsx"))
       
       # write out
       DWA_plc <- sp::SpatialPointsDataFrame(dwa_places[,13:14],dwa_places)
+      mapview(DWA_plc)
       # set projection
       sp::proj4string(DWA_plc) <- "+proj=longlat +datum=WGS84 +no_defs"
       writeOGR(DWA_plc,file.path(dat,"Data_Vector/DWA_places.shp"), driver="ESRI Shapefile",layer= "DWA_places")
@@ -85,7 +86,6 @@ write.xlsx(georef_full,file.path(dat,"DWA_GeoRef_full.xlsx"))
 
             ### get stats and places for Maurer
       
-            
             # load maurer table
             mau <- openxlsx::read.xlsx(xlsxFile =file.path(wd,"GeoRef/Data_Places/DATEN GESAMT_new2.xlsx"))
       
@@ -104,31 +104,53 @@ write.xlsx(georef_full,file.path(dat,"DWA_GeoRef_full.xlsx"))
             2011/2347 # 0.8568
             # hit new
             2088/2347 # 0.88
-            
-            2090/2011
-            (2011/2347 - 2090/2347)*100
-            (2090/2347 -2011/2347 )*100
+
             # miss
             2347-2011 # 336
             # new
-            2347-2090 # 257
-            
-            257/336
-            
-            257*1.307
-            
+            2347-2088 # 257
+
             ### get spatial dfs
-            
-            
-            colnames(test4)
-            
-            colnames(mau_plc[1:20])
-            str(mau_plc[1:20])
             mau_plc$LONG <- as.numeric(mau_plc$LONG)
             mau_plc$LAT <- as.numeric(mau_plc$LAT)
-            
             MAU_p <- sp::SpatialPointsDataFrame(mau_plc[,6:7],mau_plc)
             # set projection
-            sp::proj4string(df_spt) <- "+proj=longlat +datum=WGS84 +no_defs"
+            sp::proj4string(MAU_p) <- "+proj=longlat +datum=WGS84 +no_defs"
             
-            writeOGR(MAU_p,"C:/Envimaster/Alleman_study_map/MAURER_places.shp", driver="ESRI Shapefile",layer= "MAURER_places")
+            mapview(MAU_p)
+            
+            writeOGR(MAU_p,file.path(dat,"Data_Vector/Mau_places.shp"), driver="ESRI Shapefile",layer= "MAURER_places")
+
+            
+# compare Maurer and DWA
+dwa <- as.data.frame(DWA_plc)            
+mar <- as.data.frame(MAU_p)
+
+which(!dwa$LONG %in% mar$LONG)
+dwa[1238,]
+which(!dwa$LAT %in% mar$LAT)
+
+dwa[1871,]
+mar[which(mar$GID==130436),]
+
+which(!mar$LONG %in% dwa$LONG)
+which(!mar$LONG %in% dwa$LONG)
+length(which(!mar$GID %in% dwa$GID))
+
+length(which(!mar$LONG %in% dwa$LONG))
+
+mapview(MAU_p)+DWA_plc
+
+nrow(mar)
+nrow(dwa)
+
+dwa$cd <- paste0(dwa$LONG,dwa$LAT)
+mar$cd <- paste0(mar$LONG,mar$LAT)
+
+which(!dwa$cd%in%mar$cd)
+head(dwa)
+dwa[which(!dwa$cd%in%mar$cd),c(8,12,13,14)]
+mar[which(mar$GID==130436),c(2:10)]
+dwa[which(dwa$Ort=="Feudenheim"),]
+
+which(!mar$cd%in%dwa$cd)
