@@ -40,7 +40,9 @@ all.equal(jh[,c(4:10,15)],fs[,c(4:10,15)])
       al[which(al$Bogennummer_alph!=fs$Bogennummer_alph),c(4:10,15)]
       fs[which(jh$Bogennummer_alph!=fs$Bogennummer_alph),c(4:10,15)]
       jh[which(jh$Bogennummer_alph!=fs$Bogennummer_alph),c(4:10,15)]
-
+      jr[which(jh$Bogennummer_alph!=fs$Bogennummer_alph),c(4:10,15)]
+      jh[which(jh$Bogennummer_alph!=fs$Bogennummer_alph),c(4:10,15)]
+      
 ### check equal shared columns with org
 all.equal(al[,c(4:10,15)],org[,c(4:10,15)])
 all.equal(fs[,c(4:10,15)],org[,c(4:10,15)])
@@ -48,10 +50,15 @@ all.equal(jh[,c(4:10,15)],org[,c(4:10,15)])
 
       # Bogennummer_alpha
       org[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
-      org[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
+      org[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcripti
+      org[which(al$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
+      org[which(jr$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
       
       fs[which(fs$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
       jh[which(jh$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
+      al[which(al$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef issue by planquadrat (not checked single bögen)
+      jr[which(jr$Bogennummer_alph!=org$Bogennummer_alph),c(4:10,15)] # solved: georef transcription issue by VD
+      
       
       # Ort
       org[which(al$Ort!=org$Ort),c(1,15)]
