@@ -27,7 +27,7 @@ jr <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"JR_Index_Ref.xlsx"))
 IndRef_stats()
 
 # r bind and delete duplicates
-IndRef_full <- rbind(al,jh,fs,jr)
+IndRef_full <- rbind(jh,fs,jr)
 IndRef_full <-IndRef_full[duplicated(IndRef_full)==F,]
 
 # IndexRef_Status 
@@ -77,5 +77,8 @@ assign_trayNr <- function(df,csv){
 
 # run
 df2 <- assign_trayNr(IndRef_full,csv)
+df3 <- df2[,c(5,ncol(df2))]
 
 head(df2)
+
+write.xlsx(df2,file.path(dat,"assigned_TrayNr.xlsx"))
