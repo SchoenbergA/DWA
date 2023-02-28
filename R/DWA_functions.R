@@ -7,7 +7,7 @@ require(stringr)
 require(openxlsx) # excel handling
 
 ### DWA stats ####
-DWA_stats <- function(){
+DWA_stats <- function(write_data=F){
   ### merge
   # get all raws with places found
   sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
@@ -26,7 +26,10 @@ DWA_stats <- function(){
   data_full <- do.call("rbind", list(sub_al,sub_jh,sub_fs,sub_jr))
   
   cat(paste0("DWA transliteration ",round(nrow(data_full)/nrow(al),digits = 4)*100,"% - ",nrow(data_full)," in total",sep = "\n"))
-  
+  if(write_data==T){
+    cat(" Write all Data",sep = "\n")
+    write.xlsx(data_full,"C:/Envimaster/DWA/DWA_Aleman_full.xlsx")
+  }
   # write out
   # write.xlsx(data_full,file.path(wd,"DWA_places_14_12_22.xlsx"))
 }
