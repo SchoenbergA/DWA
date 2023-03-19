@@ -15,6 +15,6 @@ fs <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_fs.xlsx"))
 jr <- openxlsx::read.xlsx(xlsxFile =file.path(dat,"DWA_full_jr.xlsx"))
 
 # check stats
-DWA_stats(write_data = T)
+DWA_stats(write_data = F)
 WS_stats()
 DWA_unsure()
