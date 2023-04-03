@@ -165,13 +165,23 @@ DWA_unsure <- function(){
     unsure <- lapply(1:ncol(ls[[i]]), function(x){
       length(which((grepl("\\[", ls[[i]][,x])==T)))
     })
-    
-    
   )
   unsure <-c(sum(unlist(all_unsure[[1]])),
              sum(unlist(all_unsure[[2]])),
              sum(unlist(all_unsure[[3]])),
              sum(unlist(all_unsure[[4]])))
+  
+  # count "?" enrties
+  qm <- lapply(1:4, function(i)  
+    # n entries with []
+    qm1 <- lapply(1:ncol(ls[[i]]), function(x){
+      length(which((grepl("\\?", ls[[i]][,x])==T)))
+    })
+  )
+  questionmark <-c(sum(unlist(qm[[1]])),
+             sum(unlist(qm[[2]])),
+             sum(unlist(qm[[3]])),
+             sum(unlist(qm[[4]])))
   
   # get total entries
   n_entries <-c(length(which(!is.na(sub_al[,c(19:56)]))),
@@ -180,7 +190,7 @@ DWA_unsure <- function(){
                 length(which(!is.na(sub_jr[,c(19:56)]))) )
   
   # get df
-  df <- as.data.frame(cbind(unsure,n_entries))
+  df <- as.data.frame(cbind(unsure,n_entries,questionmark))
   
   # calc unsure rate
   df$unsure_rate <- round(df$unsure/df$n_entries,digits = 4)*100
