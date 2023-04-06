@@ -7,7 +7,7 @@ require(stringr)
 require(openxlsx) # excel handling
 
 ### DWA stats ####
-DWA_stats <- function(write_data=F){
+DWA_stats <- function(write_data=F,dup_check=T){
   ### merge
   # get all raws with places found
   sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
@@ -25,11 +25,22 @@ DWA_stats <- function(write_data=F){
   #d1ata_full <- rbind(sub_al,sub_jh,sub_fs)
   data_full <- do.call("rbind", list(sub_al,sub_jh,sub_fs,sub_jr))
   
-  cat(paste0("DWA transliteration ",round(nrow(data_full)/nrow(al),digits = 4)*100,"% - ",nrow(data_full)," in total",sep = "\n"))
+  if(dup_check==T){
+  # check for duplicates
+  if(length(data_full[which(duplicated(data_full$Digi_Index)==F),])>0){
+    cat(paste0(length(data_full[which(duplicated(data_full$Digi_Index)==F),])," duplicates detected!"),sep="\n")
+  } else {
+    cat("No duplicates detected",sep="\n")
+  }
+  data_full <- data_full[which(duplicated(data_full$Digi_Index)==F),]
+}
+  cat(paste0("DWA transliteration ",round(nrow(data_full)/nrow(al),digits = 4)*100,"% - ",nrow(data_full)," / ", nrow(al),sep = "\n"))
+  cat(paste0(nrow(al)-nrow(data_full)," rows missing"),sep= "\n")
   if(write_data==T){
     cat(" Write all Data",sep = "\n")
     write.xlsx(data_full,"C:/Envimaster/DWA/DWA_Aleman_full.xlsx")
   }
+  return(data_full)
   # write out
   # write.xlsx(data_full,file.path(wd,"DWA_places_14_12_22.xlsx"))
 }
