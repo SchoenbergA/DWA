@@ -1,0 +1,8 @@
+### Level 2
+
+org Level 1 Data -> objecive transliteration with duplicates and unsure, "?" issues
+
+# Level 2 processing
+
+-> clean duplicates
+	AL compares duplicated eintries and select the subjectiv better ones while additionally correct some unsure isues.
