@@ -7,7 +7,13 @@ require(stringr)
 require(openxlsx) # excel handling
 
 ### DWA stats ####
-DWA_stats <- function(write_data=F,dup_check=T){
+DWA_stats <- function(path,write_data=F,dup_check=T){
+  # load data
+  al <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_AL.xlsx"))
+  jh <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_JH.xlsx"))
+  fs <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_fs.xlsx"))
+  jr <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_jr.xlsx"))
+  
   ### merge
   # get all raws with places found
   sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
@@ -27,8 +33,10 @@ DWA_stats <- function(write_data=F,dup_check=T){
   
   if(dup_check==T){
   # check for duplicates
-  if(length(data_full[which(duplicated(data_full$Digi_Index)==F),])>0){
-    cat(paste0(length(data_full[which(duplicated(data_full$Digi_Index)==F),])," duplicates detected!"),sep="\n")
+    any(duplicated(data_full$Digi_Index)==T)
+    
+  if(nrow(data_full[which(duplicated(data_full$Digi_Index)==T),])>0){
+    cat(paste0(nrow(data_full[which(duplicated(data_full$Digi_Index)==T),])," duplicates detected!"),sep="\n")
   } else {
     cat("No duplicates detected",sep="\n")
   }
@@ -111,7 +119,12 @@ anyWS <- function(df,skip_message=F){
 } # end of function
 
 ### Check for Whitespaces HIWI ####
-WS_stats <- function(){
+WS_stats <- function(path){
+  # load data
+  al <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_AL.xlsx"))
+  jh <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_JH.xlsx"))
+  fs <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_fs.xlsx"))
+  jr <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_jr.xlsx"))
   # list hiwi data
   ls <- list(al,jh,fs,jr)
   hiwi <- c("AL","JH","FS","JR")
@@ -158,7 +171,12 @@ WS_stats <- function(){
 
 
 ### Check unsure stats ####
-DWA_unsure <- function(){
+DWA_unsure <- function(path){
+  # load data
+  al <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_AL.xlsx"))
+  jh <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_JH.xlsx"))
+  fs <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_fs.xlsx"))
+  jr <- openxlsx::read.xlsx(xlsxFile =file.path(path,"DWA_full_jr.xlsx"))
   
   # get all raws with places found
   sub_al <- al[which(!is.na(al$`Bearbeiten/in`)),]
@@ -206,5 +224,9 @@ DWA_unsure <- function(){
   # calc unsure rate
   df$unsure_rate <- round(df$unsure/df$n_entries,digits = 4)*100
   rownames(df) <- hiwi
-  df
+
+  cat(paste0(sum(df$questionmark)," total '?' entries"),sep="\n")
+  cat(paste0(sum(df$unsure)," total '[unsure]' entries"),sep="\n")
+  cat(" ",sep="\n")
+  print(df)
 }
