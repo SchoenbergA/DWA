@@ -160,3 +160,28 @@ DWA_unsure <- function(path){
   cat(" ",sep="\n")
   print(df)
 }
+
+### check NA in table ####
+check_NA <- function(df,cols){
+  # display amount of NAs per column
+  for(i in cols){
+    res <- length(which(is.na(df[,i])))
+    cat(paste0(res," NA in", colnames(df)[i]),sep="\n")
+    if(i==cols[1]){
+      sum_res <- res
+    } else {
+      sum_res <- sum_res + res
+    }
+    
+  }
+  cat(paste0("Total NA ",sum_res),sep="\n")
+}# end of function
+
+### check unsure[] in table ####
+check_unsure <- function(df){
+  
+  unsure <- lapply(1:ncol(df), function(x){
+    length(which((grepl("\\[", df[,x])==T)))
+  })
+  cat(paste0("Total unsure[] ", sum(unlist(unsure))),sep="\n")
+}
