@@ -14,6 +14,10 @@ source(file.path(r,"DWA_GT_status_functions.R"))
 
 # check stats
 gt_full <-DWA_GT_stats(path = dat,bnd = 1,dup_check = T)
+gt_full <-DWA_GT_stats(path = dat,bnd = 2,dup_check = T)
+gt_full <-DWA_GT_stats(path = dat,bnd = 3,dup_check = T)
+gt_full <-DWA_GT_stats(path = dat,bnd = 4,dup_check = T)
+gt_full <-DWA_GT_stats(path = dat,bnd = "all",dup_check = T)
 
 # write data
 write.xlsx(gt_full,file.path(wd,"German_tales_band_1_status.xlsx"))
