@@ -17,3 +17,6 @@ Level 2 Main Table "DWA_Level_2"
 
 # Level 3 final working in main Table (not in single Tables) 
 Main Table "DWA_Level_3"
+
+!!! All mein Tables are sorted by "digiIndex" !!!
+Not nessecyriliy compareable to merged format using scr !!!
