@@ -1,0 +1,19 @@
+### Level 2
+
+org Level 1 Data -> objecive transliteration with duplicates and unsure, "?" issues
+
+# Level 2 processing
+
+-> clean duplicates
+	AL compares duplicated eintries and select the subjectiv better ones while additionally correct some unsure isues.
+-> rework "unsure []". All hiwis check their own unsure.
+Main Table "DWA_Level_1_unsure_cleand" (atm not again buildable due to direct modification in single tables)
+
+-> NA removal
+	AL reduce NA (leere Zellen) direkctly in AL and JH tables.
+
+Level 2 Main Table "DWA_Level_2"
+-> merged from all lvl2 tables (including mods by AL)
+
+# Level 3 final working in main Table (not in single Tables) 
+Main Table "DWA_Level_3"
