@@ -1,5 +1,6 @@
 ### German Tales
 # Add new transliterations to hiwi tables
+# not usable anymore due to dirket update
 
 # set environment paths
 wd <- "C:/Envimaster/DWA/German_Tales" # local path to repository

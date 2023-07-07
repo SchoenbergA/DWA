@@ -6,7 +6,7 @@
 # set environment paths
 wd <- "C:/Envimaster/DWA/German_Tales" # local path to repository
 dat <- file.path(wd,"Data")
-r <- "C:/Envimaster/DWA/R"
+r <- "C:/Envimaster/DWA/German_Tales/R"
 
 
 # source function script
