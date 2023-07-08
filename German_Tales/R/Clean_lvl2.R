@@ -26,15 +26,16 @@ write.xlsx(fs2,file.path(dat,"German_tales_FS.xlsx"),overwrite = T)
 write.xlsx(jr2,file.path(dat,"German_tales_JR.xlsx"),overwrite = T)
 
 # check
-al <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
-fs <- read.xlsx(file.path(dat,"German_tales_FS.xlsx"))
-jr <- read.xlsx(file.path(dat,"German_tales_JR.xlsx"))
+al3 <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
+fs3 <- read.xlsx(file.path(dat,"German_tales_FS.xlsx"))
+jr3 <- read.xlsx(file.path(dat,"German_tales_JR.xlsx"))
 
-all.equal(al,al2)
-al==al2
-fs==fs2
-fs
-fs2
+all.equal(al2,al3)
 
-any(rownames(al)%in%rownames(al2)==F)
-which(rownames(al)%in%rownames(al2)==F)
+# all.equl rownames issue (solved: rownames change due to clip and reload from disk)
+rownames(al2[c(1657:1770),])
+rownames(al3[c(1657:1770),])
+al$ID[c(1657:1770)]
+al2$ID[c(1657:1770)]
+al3$ID[c(1657:1770)]
+################################################################################
