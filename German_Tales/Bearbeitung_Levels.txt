@@ -8,3 +8,7 @@ unbekannt (mir unbekannt) Mitarbieter/Hiwi erstellt Transliteration und GeoRefer
 
 - Koordinaten alle Überarbeitet
 - definition von Ortsklassen
+
+## Clean up Level 2
+
+- entfernen von Dublicated Zeilen

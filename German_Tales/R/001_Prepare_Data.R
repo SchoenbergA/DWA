@@ -1,5 +1,5 @@
 ### German Tales
-# Modify org table
+# Modify org table to Lvl1 Tables for all Hiwis
 
 # set environment paths
 wd <- "C:/Envimaster/DWA/German_Tales" # local path to repository

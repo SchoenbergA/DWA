@@ -3,7 +3,8 @@
 
 # set environment paths
 wd <- "C:/Envimaster/DWA/German_Tales" # local path to repository
-dat <- file.path(wd,"Data")
+dat <- file.path(wd,"Data/Lvl2_uncleaned")
+lvl2 <- file.path(wd,"Data")
 
 # load package
 require(openxlsx) # excel handling
@@ -21,14 +22,14 @@ al2 <-al[-c(1657:1770),]
 fs2 <-fs[-c(1657:1770),]
 jr2 <-jr[-c(1657:1770),]
 
-write.xlsx(al2,file.path(dat,"German_tales_AL.xlsx"),overwrite = T)
-write.xlsx(fs2,file.path(dat,"German_tales_FS.xlsx"),overwrite = T)
-write.xlsx(jr2,file.path(dat,"German_tales_JR.xlsx"),overwrite = T)
+write.xlsx(al2,file.path(lvl2,"German_tales_AL.xlsx"),overwrite = T)
+write.xlsx(fs2,file.path(lvl2,"German_tales_FS.xlsx"),overwrite = T)
+write.xlsx(jr2,file.path(lvl2,"German_tales_JR.xlsx"),overwrite = T)
 
 # check
-al3 <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
-fs3 <- read.xlsx(file.path(dat,"German_tales_FS.xlsx"))
-jr3 <- read.xlsx(file.path(dat,"German_tales_JR.xlsx"))
+al3 <- read.xlsx(file.path(lvl2,"German_tales_AL.xlsx"))
+fs3 <- read.xlsx(file.path(lvl2,"German_tales_FS.xlsx"))
+jr3 <- read.xlsx(file.path(lvl2,"German_tales_JR.xlsx"))
 
 all.equal(al2,al3)
 

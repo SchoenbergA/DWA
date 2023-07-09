@@ -1,30 +1,31 @@
 ### German Tales
 # Add new transliterations to hiwi tables
-# not usable anymore due to dirket update
 
 # set environment paths
 wd <- "C:/Envimaster/DWA/German_Tales" # local path to repository
-dat <- file.path(wd,"Data")
-#out <- file.path(wd,"Data")
-#source(file.path(dat,"R/IndRef_fun.R"))
+lvl1 <- file.path(wd,"Data/Lvl_1")
+lvl2 <-file.path(wd,"Data")
+org <- file.path(wd,"Data/org")
 
 # load package
 require(openxlsx) # excel handling
 
-# load data
-new <- read.xlsx(file.path(dat,"Firmenich_Inhalt_2.xlsx"))
-lvl1 <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
+### check diffenrence load data
+new <- read.xlsx(file.path(org,"Firmenich_Inhalt_2.xlsx"))
+old <- read.xlsx(file.path(lvl1,"German_tales_AL_Lvl1.xlsx"))
 
 # check if all hiwis have equal data
-al <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
-fs <- read.xlsx(file.path(dat,"German_tales_FS.xlsx"))
-jr <- read.xlsx(file.path(dat,"German_tales_JR.xlsx"))
+al <- read.xlsx(file.path(lvl1,"German_tales_AL_Lvl1.xlsx"))
+fs <- read.xlsx(file.path(lvl1,"German_tales_FS_Lvl1.xlsx"))
+jr <- read.xlsx(file.path(lvl1,"German_tales_JR_Lvl1.xlsx"))
 
 all(al$ID==fs$ID)
 all(jr$ID==fs$ID)
 
 (al$Kapitelüberschrift==fs$Kapitelüberschrift)
 (jr$Kapitelüberschrift==fs$Kapitelüberschrift)
+
+all.equal(al,jr)# "Kapitelübersicht 5 missmatches
 al[254,3]
 jr[254,3]
 
@@ -74,14 +75,14 @@ fs2 <- rbind(fs,new[1397:nrow(new),])
 jr2 <- rbind(jr,new[1397:nrow(new),])
 
 # write new data
-write.xlsx(al2,file.path(dat,"German_tales_AL.xlsx"),overwrite = T)
-write.xlsx(fs2,file.path(dat,"German_tales_FS.xlsx"),overwrite = T)
-write.xlsx(jr2,file.path(dat,"German_tales_JR.xlsx"),overwrite = T)
+write.xlsx(al2,file.path(lvl2,"German_tales_AL.xlsx"),overwrite = T)
+write.xlsx(fs2,file.path(lvl2,"German_tales_FS.xlsx"),overwrite = T)
+write.xlsx(jr2,file.path(lvl2,"German_tales_JR.xlsx"),overwrite = T)
 
 # check new data
-al2 <- read.xlsx(file.path(dat,"German_tales_AL.xlsx"))
-fs2 <- read.xlsx(file.path(dat,"German_tales_FS.xlsx"))
-jr2 <- read.xlsx(file.path(dat,"German_tales_JR.xlsx"))
+al2 <- read.xlsx(file.path(lvl2,"German_tales_AL.xlsx"))
+fs2 <- read.xlsx(file.path(lvl2,"German_tales_FS.xlsx"))
+jr2 <- read.xlsx(file.path(lvl2,"German_tales_JR.xlsx"))
 
 # check
 

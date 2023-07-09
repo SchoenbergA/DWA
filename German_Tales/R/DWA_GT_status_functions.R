@@ -7,7 +7,7 @@ require(stringr)
 require(openxlsx) # excel handling
 
 ### DWA stats ####
-DWA_GT_stats <- function(path,bnd,dup_check=T){
+Check_progress <- function(path,bnd,dup_check=T){
   
   # fork specific band or full data
   if(bnd=="all"){
@@ -91,5 +91,69 @@ DWA_GT_stats <- function(path,bnd,dup_check=T){
   
   }
   return(data_full)
+  
+}
+
+
+### Check Ortsname and Coordinates ####
+
+Check_df <- function(gt_full, classes){
+  
+  # clean all brackets
+  cat(paste0("cleaning all '{[ ]}' brackets"),sep="\n")
+  cat(" ",sep="\n")
+  for (i in 1:nrow(gt_full)){
+    gt_full$Ort_Klasse[i]<-gsub("\\[|\\]", "", gt_full$Ort_Klasse[i])
+    gt_full$Ort_Klasse[i]<-str_trim(gsub("\\{[^}]*}", "", gt_full$Ort_Klasse[i]),"both")
+  }
+  
+  if(any(is.na(gt_full$Ort_Klasse))){
+    cat(paste0("NA in 'Ortsklasse' detected in IDs:"),sep="\n")
+    print(gt_full$ID[which(is.na(gt_full$Ort_Klasse))])
+    cat(" ",sep="\n")
+  } 
+  
+  
+  # check for invalid "Ortsklasse"
+  which(unique(gt_full$Ort_Klasse)%in%classes)
+  class_issue <-unique(gt_full$Ort_Klasse)[-which(unique(gt_full$Ort_Klasse)%in%c("Region/Gebiet","Ort","ungenau","spezifisch","unklar","Insel"))]
+  # filter NAs
+  if(any(is.na(class_issue))){
+    class_issue <- class_issue[-which(is.na(class_issue))]
+  }
+  
+  if(length(class_issue!=0)){
+    for(i in 1:length(class_issue)){
+      cat(paste0("Invalid 'Ortsname' '",class_issue[i],"' detected in IDs:"),sep="\n")
+      print(gt_full$ID[which(gt_full$Ort_Klasse==class_issue[i])])
+      cat(" ",sep="\n")
+    }
+    cat(paste0("Valid classes for 'Ortsname' are '",paste(classes,collapse = "', '"),"'"),sep="\n")
+    cat(" ",sep="\n")
+  }
+  
+  
+  
+  #  check for NA in Coordinates
+  gt_full$x <- as.numeric(gt_full$x )
+  gt_full$y <- as.numeric(gt_full$y )
+  
+  if(any(is.na(gt_full$x))){
+    cat(paste0("NA in 'x' Coordinates detected in IDs:"),sep="\n")
+    cat(" ",sep="\n")
+    print(gt_full$ID[which(is.na(gt_full$x))])
+  } else {
+    cat(paste0(" 'x' Coordinates are valid"),sep="\n")
+    cat(" ",sep="\n")
+  }
+  
+  if(any(is.na(gt_full$y))){
+    cat(paste0("NA in 'y' Coordinates detected in IDs:"),sep="\n")
+    cat(" ",sep="\n")
+    print(gt_full$ID[which(is.na(gt_full$y))])
+  } else {
+    cat(paste0(" 'y' Coordinates are valid"),sep="\n")
+    cat(" ",sep="\n")
+  }
   
 }
